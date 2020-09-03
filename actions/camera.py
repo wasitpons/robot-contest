@@ -1,13 +1,12 @@
 import cv2
 import time
-camera = cv2.VideoCapture(0)
-detector = cv2.QRCodeDetector()
 
-try:
-    while True:
+def get_qr_value():
+    camera = cv2.VideoCapture(0)
+    detector = cv2.QRCodeDetector()
+    try:
         _, img = camera.read()
         data, bbox, _ = detector.detectAndDecode(img)
-
         if(bbox is not None):
             for i in range(len(bbox)):
                 cv2.line(
@@ -27,13 +26,11 @@ try:
                 2
             )
             if data:
-                print("data found", data)
-        cv2.imshow("code detector", img)
-        if(cv2.waitKey(1) == ord("q")):
-            break
-except:
-    pass
-finally:
-    print("Exit..")
-    camera.release()
-    cv2.destroyAllWindows()
+                return data
+            return None
+    except:
+        return None
+    finally:
+        print("Exit..")
+        camera.release()
+        cv2.destroyAllWindows()

@@ -1,41 +1,48 @@
-from config.init import init_sensor, clear_sensor
-from driver.movement import forward
-from RPi import GPIO
+from config.init import clear_sensor
+from actions import movement
+from RPi import GPIO as pi
 from config.sensor import (
     MAXANUM_POWER,
+    ENA_GPIO,
+    BACK_LEFT_FORWARD_GPIO,
     BACK_LEFT_BACKWARD_GPIO,
-    BACK_LEFT_ENA_GPIO,
-    BACK_LEFT_FORWARD_GPIO
+    FRONT_LEFT_FORWARD_GPIO,
+    FRONT_LEFT_BACKWARD_GPIO,
+    BACK_RIGHT_FORWARD_GPIO,
+    BACK_RIGHT_BACKWARD_GPIO,
+    FRONT_RIGHT_FORWARD_GPIO,
+    FRONT_RIGHT_BACKWARD_GPIO
 )
-import time
 
-def init_maxanum(ena_gpio, forward_gpio, backward_gpio):
-    GPIO.setup(ena_gpio, GPIO.OUT)
-    GPIO.setup(forward_gpio, GPIO.OUT)
-    GPIO.setup(backward_gpio, GPIO.OUT)
-    pwm=GPIO.PWM(ena_gpio, 1000)
+def clear_sensor():
+    pi.cleanup()
+
+def init_sensor():
+    pi.setup(ENA_GPIO, pi.OUT)
+    pwm=pi.PWM(ENA_GPIO, 1000)
     pwm.start(MAXANUM_POWER)
 
+    pi.setup(BACK_LEFT_FORWARD_GPIO, pi.OUT)
+    pi.setup(BACK_LEFT_BACKWARD_GPIO, pi.OUT)
+
+    pi.setup(FRONT_LEFT_FORWARD_GPIO, pi.OUT)
+    pi.setup(FRONT_LEFT_BACKWARD_GPIO, pi.OUT)
+
+    pi.setup(BACK_RIGHT_FORWARD_GPIO, pi.OUT)
+    pi.setup(BACK_RIGHT_BACKWARD_GPIO, pi.OUT)
+
+    pi.setup(FRONT_RIGHT_FORWARD_GPIO, pi.OUT)
+    pi.setup(FRONT_RIGHT_BACKWARD_GPIO, pi.OUT)
+    
+
 try:
-    clear_sensor()
-    GPIO.setmode(GPIO.BCM)
-    # GPIO.setup(BACK_LEFT_ENA_GPIO, GPIO.OUT)
-    # GPIO.setup(BACK_LEFT_FORWARD_GPIO, GPIO.OUT)
-    # GPIO.setup(BACK_LEFT_BACKWARD_GPIO, GPIO.OUT)
-    # pwm=GPIO.PWM(BACK_LEFT_ENA_GPIO, 1000)
-    # pwm.start(MAXANUM_POWER)
-    # init_sensor()
-    init_maxanum(
-        ena_gpio=BACK_LEFT_ENA_GPIO,
-        forward_gpio=BACK_LEFT_FORWARD_GPIO,
-        backward_gpio=BACK_LEFT_BACKWARD_GPIO
-    )
-    time.sleep(0.1)
+    pi.setmode(pi.BCM)
+    init_sensor()
     while True:
-        GPIO.output(23, GPIO.HIGH)
-        GPIO.output(24, GPIO.LOW)
+        movement.forward()
 except Exception as err:
     print(err)
 
 finally:
     clear_sensor()
+
