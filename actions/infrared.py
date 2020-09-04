@@ -14,7 +14,7 @@ def read_sensor():
     right = pi.input(RIGHT_LED_GPIO)
     return left, mid, right
 
-def should_turn_left():
+def should_turn_right():
     left_ir, mid_ir, right_ir = read_sensor()
     return (
         left_ir == WHITE and
@@ -22,7 +22,7 @@ def should_turn_left():
         right_ir == BLACK
     )
 
-def should_turn_right():
+def should_turn_left():
     left_ir, mid_ir, right_ir = read_sensor()
     return (
         left_ir == BLACK and
