@@ -1,5 +1,6 @@
 from RPi import GPIO
-from time import sleep
+import time
+
 from config.sensor import (
     BACK_LEFT_FORWARD_GPIO,
     BACK_LEFT_BACKWARD_GPIO,
@@ -46,6 +47,14 @@ def turn_right():
     maxanum_forward(FRONT_LEFT_FORWARD_GPIO, FRONT_LEFT_BACKWARD_GPIO)
     maxanum_backward(BACK_RIGHT_FORWARD_GPIO, BACK_RIGHT_BACKWARD_GPIO)
     maxanum_backward(FRONT_RIGHT_FORWARD_GPIO, FRONT_RIGHT_BACKWARD_GPIO)
+
+def turn_left_90():
+    turn_left()
+    time.sleep(0.7)
+
+def turn_right_90():
+    turn_right()
+    time.sleep(0.7)
 
 def stop():
     maxanum_stop(BACK_LEFT_FORWARD_GPIO, BACK_LEFT_BACKWARD_GPIO)
