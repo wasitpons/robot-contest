@@ -1,17 +1,24 @@
 from RPi import GPIO as pi
 from config.setting import init_sensor
-from actions import movement, camera
+from actions import motor, camera, infrared
 import time
 
+pi.setmode(pi.BCM)
 pwm = init_sensor()
 
+def drive():
+    if infrared.should_turn_right():
+        motor.turn_right()
+    elif infrared.should_turn_left():
+        motor.turn_left()
+    motor.forward()
+
 try:
-    pi.setmode(pi.BCM)
     while True:
-        movement.turn_right_90()
+        drive()
         qr_code = camera.get_qr_value()
-        print(qr_code)
-        time.sleep(0.1)
+        if qr_code is not None:
+            print("Do something...")
 
 except KeyboardInterrupt:
     pass

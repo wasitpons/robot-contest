@@ -9,7 +9,10 @@ from config.sensor import (
     BACK_RIGHT_FORWARD_GPIO,
     BACK_RIGHT_BACKWARD_GPIO,
     FRONT_RIGHT_FORWARD_GPIO,
-    FRONT_RIGHT_BACKWARD_GPIO
+    FRONT_RIGHT_BACKWARD_GPIO,
+    LEFT_LED_GPIO,
+    MID_LED_GPIO,
+    RIGHT_LED_GPIO,
 )
 
 def init_sensor():
@@ -28,4 +31,9 @@ def init_sensor():
 
     pi.setup(FRONT_RIGHT_FORWARD_GPIO, pi.OUT)
     pi.setup(FRONT_RIGHT_BACKWARD_GPIO, pi.OUT)
+
+    pi.setup(LEFT_LED_GPIO, pi.IN)
+    pi.setup(MID_LED_GPIO, pi.IN)
+    pi.setup(RIGHT_LED_GPIO, pi.IN)
+
     return pwm
