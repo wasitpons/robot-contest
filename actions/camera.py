@@ -1,5 +1,4 @@
 import cv2
-import time
 
 def get_qr_value():
     camera = cv2.VideoCapture(0)
